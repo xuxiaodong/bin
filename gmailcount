@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+#
+# name     : gmailcount, gmail unread count for conky
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : MIT
+# created  : 2011 Feb  7
+# modified : 2012 May 12
+#
+
+use strict;
+use warnings;
+use Config::Tiny;
+use Mail::IMAPClient;
+
+# Read Gmail account information
+my $conf = Config::Tiny->read("$ENV{HOME}/.secret")
+  or die Config::Tiny->errstr;
+my $user = $conf->{gmail}->{user};
+my $pass = $conf->{gmail}->{pass};
+
+# Gmail unread count
+my $count = 0;
+my $imap  = Mail::IMAPClient->new(
+  Server   => 'imap.gmail.com',
+  User     => $user,
+  Password => $pass,
+  Port     => 993,
+  Ssl      => 1,
+);
+
+if ( defined $imap ) {
+  $count = $imap->unseen_count('Inbox');
+  $imap->logout();
+}
+
+# Output result
+print $count;

@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+#
+# name     : uptime, uptime for tmux
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : MIT
+# created  : 2011 Apr  9
+# modified : 2012 May 11
+#
+
+use strict;
+use warnings;
+use feature qw(say);
+use autodie;
+use Date::Calc qw(Time_to_Date);
+
+# Read current time
+open my ($in_fh), "<", "/proc/uptime";
+my $time = int( ( split / /, <$in_fh> )[0] );
+close $in_fh;
+
+# Convert time to second, minute, hour, and day
+my ( $day, $hour, $min, $sec ) = ( Time_to_Date($time) )[ 2 .. 5 ];
+if ( $day > 0 ) {
+  $day--;
+  say "${day}d ${hour}h ${min}m ${sec}s";
+}
+elsif ( $hour > 0 ) {
+  say "${hour}h ${min}m ${sec}s";
+}
+elsif ( $min > 0 ) {
+  say "${min}m ${sec}s";
+}
+else {
+  say "${sec}s";
+}
+
+# vim: ai:et:ts=2:sw=2:sts=2:tw=78:ft=perl

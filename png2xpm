@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# name     : png2xpm, convert png to xpm
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : MIT
+# created  : 2012 May 12
+# modified : 2012 May 12
+#
+
+for i in *.png
+do
+  name=${i%%.*}.xpm
+  echo "* Converting $i to $name"
+  convert -colors 4 $i $name
+done
+echo "> Done"
+
+# vim: ai:et:ts=2:sw=2:sts=2:tw=78:ft=sh

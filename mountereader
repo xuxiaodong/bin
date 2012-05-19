@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# name     : mountereader, mount ereader
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : MIT
+# created  : 2010 Oct 15
+# modified : 2012 May 12
+#
+
+DEV=$1
+DIR=/mnt/ereader
+
+if [ ! -d $DIR ]; then
+  mkdir -p $DIR
+fi
+
+mount -t vfat /dev/$DEV $DIR -o uid=1000,gid=100,utf8,dmask=027,fmask=137
