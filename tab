@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2012 May 22
+#
+
+vimprobable2 -e $(tabbed -d) "$@"
