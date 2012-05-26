@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2012 May 26
+#
+
+font=$1
+
+cd ~/.config/vimprobable
+
+if [ $font == 'cn' ]
+then
+  ln -sf style-cn.css style.css
+  echo "Setted to Chinese font"
+elif [ $font == 'en' ]
+then
+  ln -sf style-en.css style.css
+  echo "Setted to English font"
+else
+  echo "Oops... missing argument"
+fi
