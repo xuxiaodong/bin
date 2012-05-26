@@ -8,6 +8,12 @@ font=$1
 
 cd ~/.config/vimprobable
 
+if [ -z $font ]
+then
+  echo "Oops... missing argument"
+  exit 1
+fi
+
 if [ $font == 'cn' ]
 then
   ln -sf style-cn.css style.css
@@ -16,6 +22,6 @@ elif [ $font == 'en' ]
 then
   ln -sf style-en.css style.css
   echo "Setted to English font"
-else
-  echo "Oops... missing argument"
 fi
+
+exit 0
