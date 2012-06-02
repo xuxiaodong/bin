@@ -4,13 +4,13 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 May 26
-# modified : 2012 May 26
+# modified : 2012 May 28
 #
 
 use strict;
 use warnings;
 
-my @cmus_status = qx(cmus-remote -Q);
+my @cmus_status = qx(cmus-remote -Q 2>/dev/null);
 my %metadata;
 
 for my $line (@cmus_status) {
@@ -19,9 +19,14 @@ for my $line (@cmus_status) {
   $metadata{'title'}  = $1 if $line =~ /^.*title (.*)$/;
 }
 
-if ( $metadata{'status'} eq 'playing' ) {
-  print "$metadata{'artist'} - $metadata{'title'}";
+if ( defined $metadata{'status'} ) {
+  if ( $metadata{'status'} eq 'playing' ) {
+    print "^fg(\#dca3a3)$metadata{'artist'}: ^fg(\#8faf9f)$metadata{'title'}";
+  }
+  else {
+    print $metadata{'status'};
+  }
 }
 else {
-  print $metadata{'status'};
+  print "n/a";
 }

@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2012 Jun 02
+#
+
+font=$1
+
+cd ~/.config/dwb
+
+if [ -z $font ]
+then
+	echo "Oops... missing argument"
+	exit 1
+fi
+
+case $font in
+	cn) ln -sf style-cn.css style.css
+		echo "Setted to Chinese font ...";;
+	en) ln -sf style-en.css style.css
+		echo "Setted to English font ...";;
+	*) echo "Argument is en or cn";;
+esac
+
+exit 0

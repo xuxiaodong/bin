@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+#
+# name     : rmshit, remove shit in funtoo
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 May 27
+# modified : 2012 May 29
+#
+
+files = %w[
+  config/vimprobable/history
+  cmus/command-history
+  cmus/search-history
+  local/share/zathura/bookmarks
+  mysql_history
+  pry_history
+  sdcv_history
+]
+
+files.each do |f|
+  path = "#{Dir.home}/.#{f}"
+  if File.exist?(path)
+    File.delete(path)
+    puts "*** Removed #{path} ..."
+  else
+    puts ">>> #{path} not found"
+  end
+end

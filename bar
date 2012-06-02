@@ -4,14 +4,14 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : MIT
 # created  : 2009 May 8
-# modified : 2012 May 12
+# modified : 2012 May 27
 #
 
 # Configuration
 FNT='-artwiz-nu-medium-r-normal--11-110-75-75-p-90-iso8859-1' # font
 BG='#1e2320'                                                  # background
 FG='#999999'                                                  # forground
-XPOS=548                                                      # x
+XPOS=428                                                      # x
 YPOS=0                                                        # y
 DH=13                                                         # height
 DA=r                                                          # alignment
