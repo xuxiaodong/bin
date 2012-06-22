@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2012 Jun 23
+#
+
+repo=$1
+
+if [ -z "$repo" ]
+then
+  echo "Usage: github-init <repo>"
+  exit 1
+fi
+
+mkdir "$repo" && cd "$repo"
+
+git init
+git remote add origin git@github.com:xuxiaodong/"$repo".git

@@ -4,14 +4,14 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Jun 03
-# modified : 2012 Jun 03
+# modified : 2012 Jun 10
 #
 
-my @cmd_out = qx(amixer get Master);
+my @cmd_out = qx(amixer get PCM);
 my $volume;
 
 for my $line (@cmd_out) {
-  $volume = $1 if $line =~ /\[(.*?)\].*dB/;
+  $volume = $1 if $line =~ /\[([^]]*)\].*dB/;
 }
 
 if ( defined $volume ) {
