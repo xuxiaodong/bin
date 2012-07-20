@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2012 Jul 20
+#
+
+gems = %x(gem list --no-version).split(/\n/).join(' ')
+puts gems

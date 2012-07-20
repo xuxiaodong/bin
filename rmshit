@@ -4,17 +4,20 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 May 27
-# modified : 2012 May 29
+# modified : 2012 Jul 19
 #
 
 files = %w[
-  config/vimprobable/history
+  cache/ctrlp/hist/cache.txt
+  cache/ctrlp/mru/cache.txt
   cmus/command-history
   cmus/search-history
+  irb_history
   local/share/zathura/bookmarks
   mysql_history
   pry_history
   sdcv_history
+  xsel.log
 ]
 
 files.each do |f|

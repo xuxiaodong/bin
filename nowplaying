@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 May 26
-# modified : 2012 May 28
+# modified : 2012 Jul 16
 #
 
 use strict;
@@ -17,6 +17,11 @@ for my $line (@cmus_status) {
   $metadata{'status'} = $1 if $line =~ /^status (.*)$/;
   $metadata{'artist'} = $1 if $line =~ /^.*artist (.*)$/;
   $metadata{'title'}  = $1 if $line =~ /^.*title (.*)$/;
+
+  unless ( defined $metadata{'artist'} or defined $metadata{'title'} ) {
+    ( $metadata{'artist'}, $metadata{'title'} ) = ( $1, $2 )
+      if $line =~ /^file.*?- (.*) -.*?- (.*)\./;
+  }
 }
 
 if ( defined $metadata{'status'} ) {
