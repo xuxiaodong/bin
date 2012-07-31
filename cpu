@@ -8,13 +8,13 @@
 #
 
 def total
-	stat_file = '/proc/stat'
-	File.open(stat_file) do |f|
-		values = f.readline.split(/\s+/)[1 .. 4].map { |e| e.to_i }
-		idle = values.last
-		total = values.inject(0, &:+)
-		return [idle, total]
-	end
+  stat_file = '/proc/stat'
+  File.open(stat_file) do |f|
+    values = f.readline.split(/\s+/)[1 .. 4].map { |e| e.to_i }
+    idle = values.last
+    total = values.inject(0, &:+)
+    return [idle, total]
+  end
 end
 
 prev_idle, prev_total = total
