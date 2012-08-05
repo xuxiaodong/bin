@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+#
+# name     : rename-pdf, rename pdf ebook
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 Aug 05
+# modified : 2012 Aug 05
+#
+
+def parse_title(pdf)
+  pdf_info = %x(pdfinfo #{pdf}).split(/\n/)
+  pdf_info.each do |line|
+    return $1 if line =~ /^Title:\s*(.*?)$/
+  end
+end
+
+abort "Usage: #$0 <*.pdf>" if ARGV.empty?
+
+ARGV.each do |pdf|
+  title = parse_title(pdf.dump)
+  if title.empty? || title =~ /^\d+\.pdf/ || title =~ /untitled/
+    puts "> #{pdf} is empty title, skipping ..."
+    next
+  else
+    title += ".pdf"
+    puts "* Renaming #{pdf} to #{title} ..."
+    File.rename pdf, title
+  end
+end

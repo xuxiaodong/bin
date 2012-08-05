@@ -10,7 +10,7 @@
 def total
   stat_file = '/proc/stat'
   File.open(stat_file) do |f|
-    values = f.readline.split(/\s+/)[1 .. 4].map { |e| e.to_i }
+    values = f.readline.split(/\s+/)[1 .. 4].map(&:to_i)
     idle = values.last
     total = values.inject(0, &:+)
     return [idle, total]

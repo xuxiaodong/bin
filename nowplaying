@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 May 26
-# modified : 2012 Jul 16
+# modified : 2012 Jul 29
 #
 
 use strict;
@@ -26,7 +26,7 @@ for my $line (@cmus_status) {
 
 if ( defined $metadata{'status'} ) {
   if ( $metadata{'status'} eq 'playing' ) {
-    print "^fg(\#dca3a3)$metadata{'artist'}: ^fg(\#8faf9f)$metadata{'title'}";
+    print "$metadata{'artist'}: $metadata{'title'}";
   }
   else {
     print $metadata{'status'};
