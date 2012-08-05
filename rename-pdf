@@ -4,11 +4,11 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Aug 05
-# modified : 2012 Aug 05
+# modified : 2012 Aug 06
 #
 
 def parse_title(pdf)
-  pdf_info = %x(pdfinfo #{pdf}).split(/\n/)
+  pdf_info = %x(pdfinfo #{pdf} 2>/dev/null).split(/\n/)
   pdf_info.each do |line|
     return $1 if line =~ /^Title:\s*(.*?)$/
   end
@@ -16,14 +16,19 @@ end
 
 abort "Usage: #$0 <*.pdf>" if ARGV.empty?
 
+skip_count = 0
+rename_count = 0
 ARGV.each do |pdf|
   title = parse_title(pdf.dump)
   if title.empty? || title =~ /^\d+\.pdf/ || title =~ /untitled/
     puts "> #{pdf} is empty title, skipping ..."
+    skip_count += 1
     next
   else
     title += ".pdf"
     puts "* Renaming #{pdf} to #{title} ..."
     File.rename pdf, title
+    rename_count += 1
   end
 end
+puts "rename: #{rename_count}\tskip: #{skip_count}"
