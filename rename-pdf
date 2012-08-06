@@ -7,28 +7,31 @@
 # modified : 2012 Aug 06
 #
 
+require 'term/ansicolor'
+
+include Term::ANSIColor
+
 def parse_title(pdf)
-  pdf_info = %x(pdfinfo #{pdf} 2>/dev/null).split(/\n/)
-  pdf_info.each do |line|
-    return $1 if line =~ /^Title:\s*(.*?)$/
-  end
+  title = ''
+  metadata = %x(pdfinfo #{pdf.dump} 2>/dev/null).split(/\n/)
+  metadata.each { |elt| title = $1 if elt =~ /^Title:\s*(.*?)$/ }
+  title
 end
 
 abort "Usage: #$0 <*.pdf>" if ARGV.empty?
 
-skip_count = 0
-rename_count = 0
+rename_count = skip_count = 0
 ARGV.each do |pdf|
-  title = parse_title(pdf.dump)
+  title = parse_title(pdf)
   if title.empty? || title =~ /^\d+\.pdf/ || title =~ /untitled/
-    puts "> #{pdf} is empty title, skipping ..."
+    puts "* [#{red}SKIP#{clear}] `#{pdf}' is empty title, skipping ..."
     skip_count += 1
     next
   else
     title += ".pdf"
-    puts "* Renaming #{pdf} to #{title} ..."
+    puts "* [ #{green}OK#{clear} ] Renaming `#{pdf}' to `#{title}' ..."
     File.rename pdf, title
     rename_count += 1
   end
 end
-puts "rename: #{rename_count}\tskip: #{skip_count}"
+puts "> total: #{ARGV.size}\trenamed: #{rename_count}\tskipped: #{skip_count}"
