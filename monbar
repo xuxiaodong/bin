@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# name     : monbar, status bar for monsterwm
+# modified : 2012 Aug 01
+#
+
+ff="/tmp/monsterwm.fifo"
+[[ -p $ff ]] || mkfifo -m 600 "$ff"
+
+# desktop names
+ds=("dev" "www" "gfx" "etc")
+
+# layout names
+ms=("þ" "û" "ü" "ú" "ý")
+
+while read -t 1 -r wmout || true; do
+  if [[ $wmout =~ ^(([[:digit:]]+:)+[[:digit:]]+ ?)+$ ]]; then
+    read -ra desktops <<< "$wmout" && unset r
+    for desktop in "${desktops[@]}"; do
+      IFS=':' read -r d w m c u <<< "$desktop"
+      ((c)) && fg="\\f7" i="${ms[$m]}" || fg="\\f1"
+      ((u)) && w+='\f5!'
+      r+="$fg${ds[$d]} ${w/#0/\\f6-} \\f1:: "
+    done
+    r="${r%::*}"
+  fi
+  printf "\\\l%s\\\r%s\n" "$r\\f4$i" "\\f8ê \\f1$(nowplaying) \\f8Ð \\f1$(cpu) \\f8Æ \\f1$(mem) \\f8Ý \\f1$(net down) \\f8Ü \\f1$(net) \\f8Ì \\f1$(gmail) \\f8ð \\f1$(batter) \\f8í \\f1$(volume) \\f8· \\f1$(date +"%a, %b %d \\f8@ \\f1%R")"
+done < "$ff" | bar &
+
+# pass output to pipe and print to stdout
+monsterwm > "$ff"

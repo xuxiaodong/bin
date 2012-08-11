@@ -4,16 +4,18 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Aug 05
-# modified : 2012 Aug 06
+# modified : 2012 Aug 07
 #
 
+require 'escape'
 require 'term/ansicolor'
 
 include Term::ANSIColor
 
 def parse_title(pdf)
   title = ''
-  metadata = %x(pdfinfo #{pdf.dump} 2>/dev/null).split(/\n/)
+  pdf = Escape.shell_command(["#{pdf}"])
+  metadata = %x(pdfinfo #{pdf} 2>/dev/null).split(/\n/)
   metadata.each { |elt| title = $1 if elt =~ /^Title:\s*(.*?)$/ }
   title
 end
