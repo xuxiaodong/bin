@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# name     : update-smarthosts, update smart hosts for linux
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 Aug 21
+# modified : 2012 Aug 21
+#
+
+base_path="/etc"
+hosts_src="$base_path"/hosts
+hosts_bak="$base_path"/hosts.bak
+hosts_len="/tmp/hosts_length"
+url="https://smarthosts.googlecode.com/svn/trunk/hosts"
+
+backup_hosts() {
+  echo "Backuping hosts ..."
+  cp "$hosts_src" "$hosts_bak"
+}
+
+download_hosts() {
+  curl -o "$hosts_src" -s "$url"
+}
+
+get_hosts_length() {
+  curl -I -s "$url" | grep Content-Length | cut -d' ' -f2
+}
+
+save_hosts_length() {
+  get_hosts_length > "$hosts_len"
+}
+
+update_hosts() {
+  read prev_len < "$hosts_len"
+  cur_len=$(get_hosts_length)
+
+  if [[ "$cur_len" == "$prev_len" ]]; then
+    echo "hosts has been updated"
+  else
+    echo "Updating hosts ..."
+    download_hosts
+  fi
+}
+
+[[ ! -e "$hosts_bak" ]] && backup_hosts && download_hosts
+[[ ! -e "$hosts_len" ]] && save_hosts_length
+update_hosts
