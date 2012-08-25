@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# name     : setwall, set wallpaper
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 Aug 25
+# modified : 2012 Aug 25
+#
+
+wall_path=~/pic
+
+cd $wall_path
+
+for wall in *; do
+  echo "Setting $wall ..."
+  feh --bg-scale $wall_path/$wall
+  sleep 10
+done
