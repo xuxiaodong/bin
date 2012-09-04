@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+#
+# name     : lyri4cmus, lyrics for cmus
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 Sep 04
+# modified : 2012 Sep 04
+#
+
+require 'glyr'
+
+class Lyrics
+  def initialize
+    while true
+      artist, title = parse_cmus
+      lyrics = fetch_lyrics(artist, title)
+      puts lyrics
+    end
+  end
+
+  def parse_cmus
+    artist = title = ''
+    lines = %x(cmus-remote -Q).split(/\n/)
+    lines.each do |line|
+      artist = $1 if line =~ /^tag artist (.*)$/
+      title = $1 if line =~ /^tag title (.*)$/
+    end
+    [artist, title]
+  end
+
+  def fetch_lyrics(artist, title)
+    lyrics = Glyr.query(artist: artist, title: title).lyrics.first
+    lyrics
+  end
+end
+
+Lyrics.new
