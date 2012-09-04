@@ -11,11 +11,9 @@ require 'glyr'
 
 class Lyrics
   def initialize
-    while true
-      artist, title = parse_cmus
-      lyrics = fetch_lyrics(artist, title)
-      puts lyrics
-    end
+    artist, title = parse_cmus
+    lyrics = fetch_lyrics(artist, title)
+    puts lyrics
   end
 
   def parse_cmus
@@ -24,6 +22,9 @@ class Lyrics
     lines.each do |line|
       artist = $1 if line =~ /^tag artist (.*)$/
       title = $1 if line =~ /^tag title (.*)$/
+      if artist.empty? && title.empty?
+        artist, title = $1, $2 if line =~ /^file.*\/(.*) - (.*)\./
+      end
     end
     [artist, title]
   end
