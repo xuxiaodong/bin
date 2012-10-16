@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2012 Oct 16
+#
+
+# configuration
+USER=
+IP=
+SRC=/home/www/linuxtoy.org/public
+DESC=/home/xuxiaodong/share/linuxtoy.org/
+EXCLUDE='wp-content/cache/*'
+
+# command
+/usr/bin/rsync -avl --delete --stats --progress \
+  --exclude $EXCLUDE \
+  -e ssh $USER@$IP:$SRC $DESC
