@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # name     : monbar, status bar for monsterwm
-# modified : 2012 Aug 14
+# modified : 2012 Oct 30
 #
 
 ff="/tmp/monsterwm.fifo"
@@ -18,13 +18,14 @@ while read -t 1 -r wmout || true; do
     read -ra desktops <<< "$wmout" && unset r
     for desktop in "${desktops[@]}"; do
       IFS=':' read -r d w m c u <<< "$desktop"
-      ((c)) && fg="\\f7" i="${ms[$m]}" || fg="\\f1"
-      ((u)) && w+='\f5!'
-      r+="$fg${ds[$d]} ${w/#0/\\f6-} \\f1:: "
+      ((c)) && fg="\\f7" i="${ms[$m]}" || fg="\\f9"
+      #((u)) && w+='\f5!'
+      #r+="$fg${ds[$d]} ${w/#0/\\f6-} \\f9:: "
+      r+="$fg${ds[$d]} \\f9:: "
     done
     r="${r%::*}"
   fi
-  printf "\\\l%s\\\r%s\n" "$r\\f4$i" "\\f7ê \\f4$(nowplaying) \\f7Ñ \\f4$(cpu) \\f7Æ \\f4$(mem) \\f7Ý \\f4$(net down) \\f7Ü \\f4$(net) \\f7Ì \\f4$(gmail) \\f7ð \\f4$(batter) \\f7í \\f4$(volume) \\f7· \\f4$(date +"%a, %b %d \\f7@ \\f4%R")"
+  printf "\\\l%s\\\r%s\n" "$r\\f4$i" "\\f8ê \\f3$(nowplaying) \\f8Ñ \\f4$(cpu) \\f8Æ \\f4$(mem) \\f8Ý \\f7$(net down) \\f8Ü \\f7$(net) \\f8Ì \\f5$(gmail) \\f8ð \\f5$(batter) \\f8í \\f5$(volume) \\f8· \\f1$(date +"%a, %b %d \\f8/ \\f1%R")"
 done < "$ff" | bar &
 
 # pass output to pipe and print to stdout
