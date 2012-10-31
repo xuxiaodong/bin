@@ -25,12 +25,10 @@ sub find_package {
   my $te = HTML::TableExtract->new( headers => [qw(File Packages)] );
   $te->parse($page);
 
-  foreach my $ts ( $te->tables ) {
-    foreach my $row ( $ts->rows ) {
-      my $package = $row->[1];
-      $package =~ s/\A\s+(.*)\s+\z/$1/m;
-      say "* $row->[0] from $package";
-    }
+  foreach my $row ( $te->rows ) {
+    my $package = $row->[1];
+    $package =~ s/\A\s+(.*)\s+\z/$1/m;
+    say "* $row->[0] from $package";
   }
 }
 
