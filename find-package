@@ -16,6 +16,9 @@ use HTML::TableExtract;
 sub find_package {
   my ($file) = @_;
 
+  $file = qx(readlink -f $file) if -l $file;
+  chomp $file;
+
   my $url  = "http://packages.debian.org/file:$file";
   my $page = get($url);
 
