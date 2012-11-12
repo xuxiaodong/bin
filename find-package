@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+#
+# name     : find-package, find package in debian
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 Oct 31
+# modified : 2012 Oct 31
+#
+
+use strict;
+use warnings;
+use feature qw(say);
+use LWP::Simple;
+use HTML::TableExtract;
+
+sub find_package {
+  my ($file) = @_;
+
+  $file = qx(readlink -f $file) if -l $file;
+  chomp $file;
+
+  my $url  = "http://packages.debian.org/file:$file";
+  my $page = get($url);
+
+  my $te = HTML::TableExtract->new( headers => [qw(File Packages)] );
+  $te->parse($page);
+
+  foreach my $row ( $te->rows ) {
+    my $package = $row->[1];
+    $package =~ s/\A\s+(.*)\s+\z/$1/m;
+    say "* $row->[0] from $package";
+  }
+}
+
+my $file = shift;
+die "Usage: $0 </path/to/file>\n" unless $file;
+find_package($file);
