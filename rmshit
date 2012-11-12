@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 May 27
-# modified : 2012 Jul 19
+# modified : 2012 Nov 11
 #
 
 files = %w[
@@ -13,9 +13,11 @@ files = %w[
   cmus/command-history
   cmus/search-history
   irb_history
+  lesshst
   local/share/zathura/bookmarks
   mysql_history
   pry_history
+  rnd
   sdcv_history
   xsel.log
 ]
@@ -24,7 +26,7 @@ files.each do |f|
   path = "#{Dir.home}/.#{f}"
   if File.exist?(path)
     File.delete(path)
-    puts "*** Removed #{path} ..."
+    puts "*** #{path} has been removed ..."
   else
     puts ">>> #{path} not found"
   end

@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Aug 05
-# modified : 2012 Aug 11
+# modified : 2012 Nov 04
 #
 
 require 'escape'
@@ -25,15 +25,15 @@ abort "Usage: #$0 <*.pdf>" if ARGV.empty?
 rename_count = skip_count = 0
 ARGV.each do |pdf|
   title = parse_title(pdf)
-  if title.empty? || title =~ /^\d+\.pdf/ || title =~ /untitled/ || title =~ /.*TITLE.*/
-    puts "* [#{red}SKIP#{clear}] `#{pdf}' is empty title, skipping ..."
+  if title.empty? || title =~ /^\d+\.pdf/ || title =~ /untitled/ || title =~ /.*(TITLE|dvi).*/
+    puts " * [#{red}SKIP#{clear}] `#{pdf}' is empty title, skipping ..."
     skip_count += 1
     next
   else
     title += ".pdf"
-    puts "* [ #{green}OK#{clear} ] Renaming `#{pdf}' to `#{title}' ..."
+    puts " * [ #{green}OK#{clear} ] Renaming `#{pdf}' to `#{title}' ..."
     File.rename pdf, title
     rename_count += 1
   end
 end
-puts "> total: #{ARGV.size}\trenamed: #{rename_count}\tskipped: #{skip_count}"
+puts " > total: #{ARGV.size}\trenamed: #{rename_count}\tskipped: #{skip_count}"
