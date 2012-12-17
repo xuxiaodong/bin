@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Oct 31
-# modified : 2012 Oct 31
+# modified : 2012 Nov 25
 #
 
 use strict;
@@ -25,10 +25,15 @@ sub find_package {
   my $te = HTML::TableExtract->new( headers => [qw(File Packages)] );
   $te->parse($page);
 
-  foreach my $row ( $te->rows ) {
+  for my $row ( $te->rows ) {
+    my $file = $row->[0];
+    next if $file =~ /File/;
+
     my $package = $row->[1];
+    next if $package =~ /Packages/;
+
     $package =~ s/\A\s+(.*)\s+\z/$1/m;
-    say "* $row->[0] from $package";
+    say "* $file from $package";
   }
 }
 

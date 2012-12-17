@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+#
+# name     : uploadyun, upload files to upyun
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2012 Dec 17
+# modified : 2012 Dec 17
+#
+
+require 'inifile'
+require 'rest-client'
+
+def upload(file)
+  upyun = IniFile.new("#{Dir.home}/.secret")['upyun']
+  upyun_user = upyun['user']
+  upyun_pass = upyun['pass']
+  api_url = 'http://v0.api.upyun.com/lt-file/'
+
+  res = RestClient::Resource.new(api_url, :user => upyun_user, :password => upyun_pass)
+  relative_path = "/files/#{Time.new.strftime("%Y/%m")}/#{file}"
+  res[relative_path].post File.read(file), { 'Expect' => '', 'Mkdir' => 'true' }
+end
+
+ARGV.each do |f|
+  upload(f)
+end
