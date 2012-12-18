@@ -17,10 +17,15 @@ def upload(file)
   upyun_pass = upyun['pass']
   api_url = "http://v0.api.upyun.com/#{upyun_bucket}/"
 
-  res = RestClient::Resource.new(api_url, :user => upyun_user, :password => upyun_pass)
+  resource = RestClient::Resource.new(api_url, :user => upyun_user, :password => upyun_pass)
   relative_path = "files/#{Time.new.strftime("%Y/%m")}/#{File.basename(file)}"
-  res[relative_path].post File.read(file), { 'Expect' => '', 'Mkdir' => 'true' }
-  puts "http://#{upyun_bucket}.b0.upaiyun.com/#{relative_path}"
+  resource[relative_path].post File.read(file), { 'Expect' => '', 'Mkdir' => 'true' } do |res, req, result, &block|
+    if res.code == 200
+      puts "http://#{upyun_bucket}.b0.upaiyun.com/#{relative_path}"
+    else
+      puts res
+    end
+  end
 end
 
 if ! ARGV.empty?
