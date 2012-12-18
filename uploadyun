@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Dec 17
-# modified : 2012 Dec 17
+# modified : 2012 Dec 18
 #
 
 require 'inifile'
@@ -12,15 +12,20 @@ require 'rest-client'
 
 def upload(file)
   upyun = IniFile.new("#{Dir.home}/.secret")['upyun']
+  upyun_bucket = upyun['bucket']
   upyun_user = upyun['user']
   upyun_pass = upyun['pass']
-  api_url = 'http://v0.api.upyun.com/lt-file/'
+  api_url = "http://v0.api.upyun.com/#{upyun_bucket}/"
 
   res = RestClient::Resource.new(api_url, :user => upyun_user, :password => upyun_pass)
-  relative_path = "/files/#{Time.new.strftime("%Y/%m")}/#{file}"
+  relative_path = "files/#{Time.new.strftime("%Y/%m")}/#{File.basename(file)}"
   res[relative_path].post File.read(file), { 'Expect' => '', 'Mkdir' => 'true' }
+  puts "http://#{upyun_bucket}.b0.upaiyun.com/#{relative_path}"
 end
 
-ARGV.each do |f|
-  upload(f)
+if ! ARGV.empty?
+  ARGV.each { |f| upload(f) }
+else
+  puts "Usage: #{$0} <file>"
+  exit(1)
 end
