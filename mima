@@ -1,0 +1,15 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Image::Magick;
+
+my $img = Image::Magick->new;
+my $x = $img->Read('background.bmp');
+
+my $date = qx(date +'%Y-%m-%d');
+chomp $date;
+
+$x = $img->Annotate(text=>$date, pointsize=>12, fill=>'black', x=>1270, y=>738);
+
+$x = $img->Write('BMP3:prompt.bmp');
