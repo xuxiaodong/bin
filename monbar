@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # name     : monbar, status bar for monsterwm
-# modified : 2012 Dec 01
+# modified : 2013 Jun 14
 #
 
 ff="/tmp/monsterwm.fifo"
@@ -25,7 +25,7 @@ while read -t 1 -r wmout || true; do
     done
     r="${r%*}"
   fi
-  printf "\\\l%s\\\r%s\n" "$r\\f4$i" "\\f8ê \\f3$(nowplaying) \\f8Ñ \\f4$(cpu) \\f8Æ \\f4$(mem) \\f8Ý \\f7$(net down) \\f8Ü \\f7$(net) \\f8­ \\f7$(wifi) \\f8Ì \\f5$(gmail) \\f8ð \\f5$(batter) \\f8í \\f5$(volume) \\f8· \\f1$(date +"%a, %b %d \\f8/ \\f1%R")"
+  printf "\\\l%s\\\r%s\n" "$r\\f4$i" "\\f8Ñ \\f4$(cpu) \\f8Æ \\f4$(mem) \\f8Ý \\f7$(net down) \\f8Ü \\f7$(net) \\f8í \\f5$(volume) \\f8· \\f1$(date +"%a, %b %d \\f8/ \\f1%R")"
 done < "$ff" | bar &
 
 # pass output to pipe and print to stdout

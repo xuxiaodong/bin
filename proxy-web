@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# name     : proxy-web, proxy web page with Google Translate
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2013 Oct 16
+#
+
+TARGET_URL="http://translate.google.com.hk/translate?anno=2&hl=en&sl=en&tl=zh-CN&u=$1"
+
+firefox -new-tab $TARGET_URL 2> /dev/null
