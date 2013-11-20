@@ -18,7 +18,7 @@ parser.add_argument('-t', '--title', required=True, help='Post title')
 parser.add_argument('-l', '--slug', help='Post slug')
 parser.add_argument('-c', '--category', nargs='+', help='Post category')
 parser.add_argument('-f', '--file', required=True, help='Post file')
-parser.add_argument('-s', '--status', default='Draft', help='Post status')
+parser.add_argument('-s', '--status', default='draft', help='Post status')
 parser.add_argument('-i', '--post_id', help='Post ID')
 args = parser.parse_args()
 
@@ -40,6 +40,7 @@ with open(args.file, 'r') as f:
 
 post.content = content
 post.post_status = args.status
+post.comment_status = 'open'
 
 if args.post_id:
     wp.call(EditPost(args.post_id, post))
