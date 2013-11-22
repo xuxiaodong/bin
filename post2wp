@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2013 Nov 20
-# modified : 2013 Nov 20
+# modified : 2013 Nov 22
 #
 
 import os
@@ -25,7 +25,7 @@ args = parser.parse_args()
 config = ConfigParser.RawConfigParser()
 config.read(os.environ['HOME'] + '/.post2wprc')
 
-url = 'http://linuxtoy.org/xmlrpc.php'
+url = config.get('post2wp', 'url')
 user = config.get('post2wp', 'username')
 passwd = config.get('post2wp', 'password')
 wp = Client(url, user, passwd)
