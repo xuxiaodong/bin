@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # name     : monbar, status bar for monsterwm
-# modified : 2012 Dec 01
+# modified : 2013 Jan 29
 #
 
 ff="/tmp/monsterwm.fifo"
