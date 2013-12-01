@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+#
+# name     : post2wp, post to wordpress
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2013 Nov 20
+# modified : 2013 Nov 22
+#
+
+import os
+import argparse
+import ConfigParser
+from wordpress_xmlrpc import Client, WordPressPost
+from wordpress_xmlrpc.methods.posts import NewPost, EditPost
+
+parser = argparse.ArgumentParser(description='Post to WordPress')
+parser.add_argument('-t', '--title', required=True, help='Post title')
+parser.add_argument('-l', '--slug', help='Post slug')
+parser.add_argument('-c', '--category', nargs='+', help='Post category')
+parser.add_argument('-f', '--file', required=True, help='Post file')
+parser.add_argument('-s', '--status', default='draft', help='Post status')
+parser.add_argument('-i', '--post_id', help='Post ID')
+args = parser.parse_args()
+
+config = ConfigParser.RawConfigParser()
+config.read(os.environ['HOME'] + '/.post2wprc')
+
+url = config.get('post2wp', 'url')
+user = config.get('post2wp', 'username')
+passwd = config.get('post2wp', 'password')
+wp = Client(url, user, passwd)
+
+post = WordPressPost()
+post.title = args.title
+post.slug = args.slug
+post.terms_names = { 'category': args.category }
+
+with open(args.file, 'r') as f:
+    content = f.read()
+
+post.content = content
+post.post_status = args.status
+post.comment_status = 'open'
+
+if args.post_id:
+    wp.call(EditPost(args.post_id, post))
+else:
+    wp.call(NewPost(post))

@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+
+use feature qw(say);
+use Linux::Inotify2;
+
+my $file    = shift;
+my $inotify = new Linux::Inotify2;
+
+$inotify->watch(
+    $file,
+    IN_MODIFY,
+    sub {
+        my $event = shift;
+        my $name  = $event->fullname;
+        if ( $event->IN_MODIFY ) {
+            say "$name was modified.";
+            system 'perl', $name;
+        }
+    }
+);
+
+1 while $inotify->poll;

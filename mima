@@ -1,0 +1,31 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Image::Magick;
+
+my $option = shift || '';
+my $img_src; 
+my $x;
+my $y;
+
+if ($option eq '-v') {
+	$img_src = 'background-v.bmp';
+	$x = 678;
+	$y = 1330;
+}
+else {
+	$img_src = 'background-h.bmp';
+	$x = 1270;
+	$y = 738;
+}
+
+my $img = Image::Magick->new;
+my $retval = $img->Read($img_src);
+
+my $date = qx(date +'%Y-%m-%d');
+chomp $date;
+
+$retval = $img->Annotate(text=>$date, pointsize=>12, fill=>'black', x=>$x, y=>$y);
+
+$retval = $img->Write('BMP3:prompt.bmp');

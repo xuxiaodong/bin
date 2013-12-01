@@ -1,0 +1,3 @@
+#!/bin/bash
+
+which $(ls -1 /{,s}bin /usr/{,s}bin | awk '{ if (length($1) > 1) print }' | rev) | grep -v 'not found' | sed 's:.*/::' | sort
