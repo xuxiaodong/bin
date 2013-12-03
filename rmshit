@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 May 27
-# modified : 2012 Nov 11
+# modified : 2013 Aug 24
 #
 
 files = %w[
@@ -19,6 +19,7 @@ files = %w[
   pry_history
   rnd
   sdcv_history
+  sqlite_history
   xsel.log
 ]
 
@@ -28,6 +29,6 @@ files.each do |f|
     File.delete(path)
     puts "*** #{path} has been removed ..."
   else
-    puts ">>> #{path} not found"
+    puts ">>> #{path} not found ..."
   end
 end

@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Sep 04
-# modified : 2012 Sep 04
+# modified : 2012 Dec 20
 #
 
 require 'glyr'
@@ -30,8 +30,7 @@ class Lyrics
   end
 
   def fetch_lyrics(artist, title)
-    lyrics = Glyr.query(artist: artist, title: title).lyrics.first
-    lyrics
+    Glyr.query(artist: artist, title: title).lyrics.first
   end
 end
 

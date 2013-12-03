@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+number = eval(input("Enter a number: "))
+
+print("decimal: ", format(number, "d"))
+print("hexadecimal: ", format(number, "x"))
+print("octal: ", format(number, "o"))
+print("binary: ", format(number, "b"))
