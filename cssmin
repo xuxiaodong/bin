@@ -1,0 +1,26 @@
+#!/usr/bin/env perl
+#
+# name     : cssmin, css minifier
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2013 Dec 03
+# modified : 2013 Dec 03
+#
+
+use strict;
+use warnings;
+
+use CSS::Minifier::XS qw(minify);
+use File::Slurp qw(read_file write_file);
+
+sub usage {
+    return "Usage: $0 <in_file> <out_file>\n";
+}
+
+my $in_file  = shift or die usage;
+my $out_file = shift or die usage;
+
+my $css_src  = read_file($in_file);
+my $css_min  = minify($css_src);
+
+write_file( $out_file, $css_min );
