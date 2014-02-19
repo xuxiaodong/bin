@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# name     : upimg, upload image to linuxtoy
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Feb 19
+# modified : 2014 Feb 19
+#
+
+IMAGE=$1
+DATE=$(date +'%Y/%m')
+DIR="/home/www/linuxtoy.org/public/img/$DATE"
+
+if [ -z $IMAGE ]; then
+    echo "Usage: upimg <image>"
+    exit 1
+fi
+
+scp $IMAGE vu2:$DIR
+
+exit 0
