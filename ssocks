@@ -1,0 +1,20 @@
+#!/bin/bash 
+#
+# name     : ssocks, shadowsocks launch script
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Feb 19
+# modified : 2014 Feb 19
+#
+
+CMD=$(which ss-local)
+CONFIG=$HOME/.shadowsocks.json
+
+if [ -z $CMD ]; then
+    echo "You need to install shadowsocks."
+    exit 1
+fi
+
+$CMD -c $CONFIG
+
+exit 0
