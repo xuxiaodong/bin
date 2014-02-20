@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+#
+# name     : tldr, a simple man pages reader
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Feb 20
+# modified : 2014 Feb 20
+#
+
+use strict;
+use warnings;
+use feature qw(say);
+use File::Slurp qw(read_file);
+
+die "Usage: $0 <command>\n" if scalar @ARGV != 1;
+
+my $cmd = shift;
+query($cmd);
+
+sub query {
+    my ($cmd) = @_;
+
+    my %man_common = ready('common');
+    my %man_plat   = ready($^O);        # os type
+    if ( exists $man_common{$cmd} ) {
+        output( $man_common{$cmd} );
+    }
+    elsif ( exists $man_plat{$cmd} ) {
+        output( $man_plat{$cmd} );
+    }
+    else {
+        say "Sorry, $cmd not found.";
+    }
+}
+
+sub ready {
+    my ($type) = @_;
+
+    my $path = './tldr/pages/' . $type;
+    opendir my $dir, $path or die;
+    my @pages = grep {/\.md/} readdir $dir;
+    closedir $dir;
+
+    my %man;
+    for my $page (@pages) {
+        my $key = $page;
+        $key =~ s/\.md//;
+        my $value = $path . '/' . $page;
+        $man{$key} = $value;
+    }
+
+    return %man;
+}
+
+sub output {
+    my ($file) = @_;
+
+    my @lines = read_file($file);
+    for my $line (@lines) {
+        print $line if $line !~ /^#/;
+    }
+}
