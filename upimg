@@ -4,14 +4,14 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2014 Feb 19
-# modified : 2014 Feb 19
+# modified : 2014 Feb 28
 #
 
-IMAGE=$1
+IMAGE="$@"
 DATE=$(date +'%Y/%m')
 DIR="/home/www/linuxtoy.org/public/img/$DATE"
 
-if [ -z $IMAGE ]; then
+if [[ -z $IMAGE ]]; then
     echo "Usage: upimg <image>"
     exit 1
 fi
