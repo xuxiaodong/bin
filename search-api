@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# name     : search-api, search devdocs.io from the command line
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2014 Mar 11
+#
+
+BIN=$(which firefox)
+
+if [ -z "$BIN" ]; then
+    echo "You need to install Firefox."
+    exit 1
+fi
+
+KEYWORD=''
+
+if [[ $# == 1 ]]; then
+    KEYWORD=$1
+fi
+
+if [[ $# == 2 ]]; then
+    KEYWORD="$1 $2"
+fi
+
+if [ -z "$KEYWORD" ]; then
+    echo "Usage: $0 [language] <keyword>"
+    echo
+    echo "Example:"
+    echo
+    echo "  $0 match        Search match."
+    echo "  $0 js match     Search JavaScript match."
+    exit 1
+fi
+
+URL="http://devdocs.io/#q=$KEYWORD"
+
+$BIN -safe-mode -new-window "$URL" 2> /dev/null
+
+exit 0
