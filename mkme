@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# name     : mkme, make readme
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPLv2
+# created  : 2014 Mar 13
+# modified : 2014 Mar 13
+#
+
+FILE='README.md'
+NAME=$(basename $(pwd))
+
+[[ -e $FILE ]] && rm $FILE
+
+cat > $FILE <<END
+# About $NAME
+
+END
+
+LISTS=$(find . -type f -executable -not -path "./.git/*" | sort);
+for ITEM in $LISTS; do
+    ITEM_NAME=$(basename $ITEM)
+    ITEM_TEXT=$(grep '^# name' $ITEM | cut -d ',' -f 2)
+    echo '*' $ITEM_NAME: $ITEM_TEXT >> $FILE
+done
+
+GIT_URL=$(grep 'url =' .git/config | cut -d '=' -f 2 | sed 's/^ //')
+cat >> $FILE <<END
+
+# Installation
+
+    git clone $GIT_URL
+END
