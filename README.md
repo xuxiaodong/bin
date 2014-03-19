@@ -30,6 +30,7 @@
 * rerun:
 * rmshit: remove shit in funtoo
 * search-api: search devdocs.io from the command line
+* set-screen: set screen
 * setwall: set wallpaper
 * ssocks: shadowsocks launch script
 * sync:
@@ -44,4 +45,4 @@
 
 # Installation
 
-    git clone https://github.com/xuxiaodong/bin.git
+    git clone git@github.com:xuxiaodong/bin.git

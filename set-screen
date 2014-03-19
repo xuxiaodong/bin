@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# name     : set-screen, set screen
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Mar 19
+# modified : 2014 Mar 19
+#
+
+xrandr --output VGA-0 --auto
