@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# name     : perl-modep, parse perl module dependencies and create cpanfile
+# name     : perl-modep, parse perl module dependencies
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2014 Apr 14
@@ -10,22 +10,31 @@
 use strict;
 use warnings;
 use feature qw(say);
-use File::Slurp qw(append_file);
+use File::Find::Rule;
 use Module::Extract::Use;
 
-die "Usage: $0 <perl file>\n" if @ARGV != 1;
+my $dir = shift || '.';
 
-my $file = shift;
-say "Parsing $file ...";
+my $rule = File::Find::Rule->new;
+$rule->any(
+    File::Find::Rule->name( '*.pl', '*.pm' ),
+    File::Find::Rule->file->executable,
+);
+my @files = $rule->in($dir);
 
-my $extor   = Module::Extract::Use->new;
-my @modules = $extor->get_modules($file);
+for my $file (@files) {
+    parse($file);
+}
 
-my $cpanfile = 'cpanfile';
-unlink $cpanfile if -e $cpanfile;
-for my $mod (@modules) {
-    next if $mod =~ /^[a-z]/;
-    say "* $mod";
-    my $line = "requires '$mod';\n";
-    append_file( $cpanfile, $line );
+sub parse {
+    my ($file) = @_;
+    say "Parsing $file ...";
+
+    my $extor   = Module::Extract::Use->new;
+    my @modules = $extor->get_modules($file);
+
+    for my $mod (@modules) {
+        next if $mod =~ /^[a-z]/;
+        say "* $mod";
+    }
 }
