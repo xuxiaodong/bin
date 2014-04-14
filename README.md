@@ -23,6 +23,7 @@
 * mountereader: mount ereader
 * net: network information for mobar
 * nowplaying: cmus status for conky
+* perl-modep: parse perl module dependencies and create cpanfile
 * png2xpm: convert png to xpm
 * post2wp: post to wordpress
 * proxy-web: proxy web page with Google Translate
@@ -45,4 +46,4 @@
 
 # Installation
 
-    git clone git@github.com:xuxiaodong/bin.git
+    git clone https://github.com/xuxiaodong/bin.git
