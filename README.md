@@ -35,6 +35,7 @@
 * setwall: set wallpaper
 * ssocks: shadowsocks launch script
 * sync:
+* sys-res.py: get cpu percent
 * tab:
 * tldr: a simple man pages reader
 * update-smarthosts: update smart hosts for linux
@@ -46,4 +47,4 @@
 
 # Installation
 
-    git clone https://github.com/xuxiaodong/bin.git
+    git clone git@github.com:xuxiaodong/bin.git
