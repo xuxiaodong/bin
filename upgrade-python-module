@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# name     : upgrade-python-module, upgrade all python module with pip
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# modified : 2014 Jun 13
+#
+
+BIN=$(which pip)
+
+if [ -z $BIN ]; then
+    echo "You need to install pip."
+    exit 1
+fi
+
+ALL_MODULES=$($BIN freeze -l | cut -d'=' -f1 | tr '\n' ' ')
+$BIN install -U $ALL_MODULES
+
+exit 0
