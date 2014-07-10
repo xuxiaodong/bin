@@ -29,7 +29,7 @@ except ConfigParser.NoSectionError as err:
     print(err)
     sys.exit(2)
 
-ssh = pexpect.spawn('ssh -l ' + username + ' ' + ip)
+ssh = pexpect.spawn('/usr/bin/ssh', ['-l', username, ip])
 ssh.expect('password:', timeout=180)
 ssh.sendline(password)
 ssh.interact()
