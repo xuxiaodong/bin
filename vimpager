@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# Script for using ViM as a PAGER.
+# Based on Bram's less.sh.
+# Perlified by Magnus Woldrich.
+# Added Ruby and Git support by Xu Xiaodong.
+
+# Removed unwanted 'features' in the original vimpager, including:
+# · python support
+# · system type checks
+# · GPM
+# If perldoc is called, we use the specialized perldoc.vim syntax file,
+# included in this distribution.
+
+file="$@"
+if [ -z "$file" ]; then file="-"; fi
+
+linux=1
+
+less_vim() {
+    /usr/bin/vim -R -X \
+        -c 'let no_plugin_maps=1'     \
+        -c 'set scrolloff=999'        \
+        -c 'set foldlevel=999'        \
+        -c 'runtime! macros/less.vim' \
+        -c 'set cc=0 tw=78 cursorline nonu norelativenumber nolist cmdheight=1' \
+        "$@"
+}
+
+do_ps() {
+    /bin/ps fuxw
+}
+
+pproc() {
+    /bin/ps -p $1 -o comm=
+}
+
+ppid() {
+    /bin/ps -p $1 -o ppid=
+}
+
+# Check if called from man, rdoc or perldoc
+if do_ps | grep -q '\man\|git\|ri\|pydoc\|ipython\|perl\(doc\)\?\([0-9.]*\)\?\\>'; then
+    proc=$$
+    while next_parent=`ppid $proc` && [ $next_parent != 1 ]; do
+        if pproc $next_parent | grep -q 'man\>'; then
+            cat $file | sed -e 's/\[[^m]*m//g' | sed -e 's/.//g' | less_vim -c 'set ft=man' -; exit
+        elif pproc $next_parent | grep -q 'git'; then
+            cat $file | sed -e 's/\[[^m]*m//g' | sed -e 's/.//g' | less_vim -; exit
+        elif pproc $next_parent | grep -q 'ri'; then
+            cat $file | sed -e 's/.//g' | less_vim -c 'set ft=rdoc' -; exit
+        elif pproc $next_parent | grep -q 'pydoc\|ipython'; then
+            cat $file | sed -e 's/.//g' | less_vim -c 'set ft=pydoc' -; exit
+        elif pproc $next_parent | grep -q 'perl\(doc\)\?\([0-9.]*\)\?\>'; then
+            cat $file | sed -e 's/.//g' | less_vim -c 'set ft=perldoc' -; exit
+        fi
+        proc=$next_parent
+    done
+else
+    echo "Could not spawn vimpager."
+fi
+
+less_vim "$file"
