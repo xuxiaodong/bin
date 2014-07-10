@@ -4,14 +4,14 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : MIT
 # created  : 2011 Apr  9
-# modified : 2012 May 11
+# modified : 2014 Jul 07
 #
 
 use strict;
 use warnings;
 use feature qw(say);
 use autodie;
-use Date::Calc qw(Time_to_Date);
+use Date::Calc::XS qw(Time_to_Date);
 
 # Read current time
 open my ($in_fh), "<", "/proc/uptime";
