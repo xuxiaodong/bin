@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+#
+# name     : login-sgw, login sgw
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Jul 10
+# modified : 2014 Jul 10
+#
+
+import os
+import sys
+import ConfigParser
+import pexpect
+
+try:
+    sgw_name = sys.argv[1]
+except:
+    print('Usage: login-sgw <sgw name>')
+    sys.exit(1)
+
+config = ConfigParser.RawConfigParser()
+config.read(os.environ['HOME'] + '/.sgwrc')
+
+try:
+    ip = config.get(sgw_name, 'ip')
+    username = config.get(sgw_name, 'username')
+    password = config.get(sgw_name, 'password')
+except ConfigParser.NoSectionError as err:
+    print(err)
+    sys.exit(2)
+
+ssh = pexpect.spawn('ssh -l ' + username + ' ' + ip)
+ssh.expect('password:', timeout=180)
+ssh.sendline(password)
+ssh.interact()
