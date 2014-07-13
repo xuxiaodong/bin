@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# name     : switch-wifi, switch wifi between home and work
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# created  : 2014 Jul 13
+# modified : 2014 Jul 13
+#
+
+at_where="$1"
+
+if [ -z $at_where ]; then
+    echo "Usage: $0 <where>"
+    exit 1
+fi
+
+ssid=''
+psk=''
+iface='wlan0'
+
+if [ $at_where = 'home' ]; then
+    ssid='tux'
+    psk='admin21qq'
+elif [ $at_where = 'work' ]; then
+    ssid='sina-web'
+    psk='sinachina'
+elif [ $at_where = 'coffee' ]; then
+    ssid='COSTA Coffee Free WiFi'
+    psk='costacoffee'
+else
+    echo 'Unknown where, exiting...'
+    exit 2
+fi
+
+sed -i \
+    -e "s/wpa-ssid.*$/wpa-ssid $ssid/" \
+    -e "s/wpa-psk.*$/wpa-psk $psk/" \
+    /etc/network/interfaces
+
+ifdown $iface
+ifup $iface
+
+exit 0
