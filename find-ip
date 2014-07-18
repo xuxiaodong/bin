@@ -14,9 +14,12 @@ import requests
 
 def find_ip(ip, ip_type='rip'):
     api_url = 'http://duomo.intra.sina.com.cn/?r=duomoRest/api'
-    post_data = {'action': 'getByMember', 'rip': ip + ':80'}
+    sep = ':'
+    if sep not in ip:
+        ip = ip + ':80'
+    post_data = {'action': 'getByMember', 'rip': ip}
     if ip_type == 'vip':
-        post_data = {'action': 'getByVip', 'vip': ip + ':80'}
+        post_data = {'action': 'getByVip', 'vip': ip}
     r = requests.post(api_url, data=json.dumps(post_data))
     status_code = r.status_code
     if status_code == 200:
@@ -60,5 +63,5 @@ if __name__ == '__main__':
         data = find_ip(ip, ip_type)
         parse_data(data, ip_type)
     else:
-        print('Usage: find-ip <ip> or find-ip [<vip|rip>] <ip>')
+        print('Usage: find-ip <ip[:port]> or find-ip [<vip|rip>] <ip[:port]>')
         sys.exit(1)
