@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# name     : find-vip, find vip
+# name     : find-ip, find vip or rip
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2014 Jul 18
@@ -12,9 +12,11 @@ import sys
 import requests
 
 
-def find_vip(ip):
+def find_ip(ip, ip_type='rip'):
     api_url = 'http://duomo.intra.sina.com.cn/?r=duomoRest/api'
     post_data = {'action': 'getByMember', 'rip': ip + ':80'}
+    if ip_type == 'vip':
+        post_data = {'action': 'getByVip', 'vip': ip + ':80'}
     r = requests.post(api_url, data=json.dumps(post_data))
     status_code = r.status_code
     if status_code == 200:
@@ -28,11 +30,13 @@ def find_vip(ip):
         print(status_code)
 
 
-def parse_data(data):
+def parse_data(data, ip_type='rip'):
     ips = []
     for item in data:
-        vip = item['virtualaddress']
-        for element in vip:
+        ip_list = item['virtualaddress']
+        if ip_type == 'vip':
+            ip_list = item['poolmember']
+        for element in ip_list:
             ip = element['ip']
             port = element['port']
             ip_port = ip + ':' + port
@@ -45,10 +49,16 @@ def parse_data(data):
 
 
 if __name__ == '__main__':
-    try:
+    args = len(sys.argv) - 1
+    if args == 1:
         ip = sys.argv[1]
-    except:
-        print('Usage: find-vip <ip>')
+        data = find_ip(ip)
+        parse_data(data)
+    elif args == 2:
+        ip_type = sys.argv[1]
+        ip = sys.argv[2]
+        data = find_ip(ip, ip_type)
+        parse_data(data, ip_type)
+    else:
+        print('Usage: find-ip <ip> or find-ip [<vip|rip>] <ip>')
         sys.exit(1)
-    data = find_vip(ip)
-    parse_data(data)
