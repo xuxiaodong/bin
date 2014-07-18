@@ -4,10 +4,10 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2014 Feb 19
-# modified : 2014 Feb 19
+# modified : 2014 Jul 17
 #
 
-CMD=$(which ss-local)
+CMD=$(which sslocal)
 CONFIG=$HOME/.shadowsocks.json
 
 if [ -z $CMD ]; then
