@@ -4,12 +4,17 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2014 Jul 18
-# modified : 2014 Jul 18
+# modified : 2014 Jul 21
 #
 
 import json
 import sys
-import requests
+
+try:
+    import requests
+except:
+    print('Please run `pip install requests`')
+    sys.exit(2)
 
 
 def find_ip(ip, ip_type='rip'):
@@ -33,7 +38,7 @@ def find_ip(ip, ip_type='rip'):
         print(status_code)
 
 
-def parse_data(data, ip_type='rip'):
+def get_ip(data, ip_type='rip'):
     ips = []
     for item in data:
         ip_list = item['virtualaddress']
@@ -44,11 +49,23 @@ def parse_data(data, ip_type='rip'):
             port = element['port']
             ip_port = ip + ':' + port
             ips.append(ip_port)
-    ips = set(ips)
-    ips = list(ips)
-    ips.sort()
-    for ip in ips:
-        print(ip)
+    put_list(ips)
+
+
+def get_pool(data):
+    pools = []
+    for item in data:
+        pool_name = item['poolname']
+        pools.append(pool_name)
+    put_list(pools)
+
+
+def put_list(item_list):
+    item_list = set(item_list)
+    item_list = list(item_list)
+    item_list.sort()
+    for item in item_list:
+        print(item)
 
 
 if __name__ == '__main__':
@@ -56,12 +73,14 @@ if __name__ == '__main__':
     if args == 1:
         ip = sys.argv[1]
         data = find_ip(ip)
-        parse_data(data)
+        get_ip(data)
+        get_pool(data)
     elif args == 2:
         ip_type = sys.argv[1]
         ip = sys.argv[2]
         data = find_ip(ip, ip_type)
-        parse_data(data, ip_type)
+        get_ip(data, ip_type)
+        get_pool(data)
     else:
         print('Usage: find-ip <ip[:port]> or find-ip [<vip|rip>] <ip[:port]>')
         sys.exit(1)
