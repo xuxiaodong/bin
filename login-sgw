@@ -4,7 +4,7 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2014 Jul 10
-# modified : 2014 Jul 11
+# modified : 2014 Jul 24
 #
 
 import os
@@ -29,7 +29,7 @@ except ConfigParser.NoSectionError as err:
     print(err)
     sys.exit(2)
 
-ssh = pexpect.spawn('/usr/bin/ssh', ['-l', username, ip])
+ssh = pexpect.spawn('ssh', ['-l', username, ip])
 ssh.expect('password:', timeout=180)
 ssh.sendline(password)
 ssh.interact()

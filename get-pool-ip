@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+#
+# name     : get-pool-ip, get ip in pool
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Jul 24
+# modified : 2014 Jul 24
+#
+
+import sys
+import bs4
+import requests
+
+
+def parse(url):
+    r = requests.get(url)
+    status_code = r.status_code
+    if status_code == 200:
+        soup = bs4.BeautifulSoup(r.text)
+        table = soup.find(id='graph_sorted_list')
+        if table:
+            ip = table.text.strip()
+            print(ip)
+    else:
+        print(status_code)
+
+
+if __name__ == '__main__':
+    try:
+        url = sys.argv[1]
+    except:
+        print('Usage: get-pool-ip <url>')
+        sys.exit(1)
+    parse(url)
