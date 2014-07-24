@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# name     : device-lookup, device lookup
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2014 Jul 23
+# modified : 2014 Jul 23
+#
+
+IP="$1"
+CMD="$HOME/bin/newcmdb_cli"
+
+if [ -z $IP ]; then
+    echo "Usage: $0 <ip>"
+    exit 1
+fi
+
+$CMD -i $IP \
+     -f asset_number,sn,rack \
+     | tail -n 3 \
+     | cut -d' ' -f3 \
+     | tr '\n' ' '
+
+exit 0
