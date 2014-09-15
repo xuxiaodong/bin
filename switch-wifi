@@ -3,23 +3,27 @@
 # name     : switch-wifi, switch wifi between home and work
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # created  : 2014 Jul 13
-# modified : 2014 Jul 13
+# modified : 2014 Sep 15
 #
 
-at_where="$1"
+position=('home' 'work' 'coffee')
+select at_where in ${position[@]}; do
+    if [ "$at_where" == "" ]; then
+        echo "Bad selection"
+        exit 2
+    fi
 
-if [ -z $at_where ]; then
-    echo "Usage: $0 <where>"
-    exit 1
-fi
+    echo "Your selection: $at_where"
+    break
+done
 
 ssid=''
 psk=''
 iface='wlan0'
 
 if [ $at_where = 'home' ]; then
-    ssid='tux'
-    psk='admin21qq'
+    ssid='TOYLAND'
+    psk='itoy!978'
 elif [ $at_where = 'work' ]; then
     ssid='sina-web'
     psk='sinachina'
