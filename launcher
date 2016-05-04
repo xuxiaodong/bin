@@ -4,11 +4,11 @@
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2012 Jul 30
-# modified : 2014 Jul 09
+# modified : 2015 Apr 25
 #
 
 # configuration
-#font='-*-ohsnap-medium-r-*-*-14-*-*-*-*-*-*-*'
+font='-*-ohsnap-medium-r-*-*-14-*-*-*-*-*-*-*'
 norm_bg='#1A1A1A'
 norm_fg='#A9A9A9'
 sel_bg='#222222'
@@ -16,5 +16,4 @@ sel_fg='#956D9D'
 
 # execute
 cmd=$(which dmenu_run)
-#"$cmd" -b -fn "$font" -nb "$norm_bg" -nf "$norm_fg" -sb "$sel_bg" -sf "$sel_fg"
-"$cmd" -b -nb "$norm_bg" -nf "$norm_fg" -sb "$sel_bg" -sf "$sel_fg"
+"$cmd" -b -fn "$font" -nb "$norm_bg" -nf "$norm_fg" -sb "$sel_bg" -sf "$sel_fg"
