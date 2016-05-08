@@ -13,7 +13,9 @@ cd $BUILD_DIR
 
 if [[ ! -d $NAME ]]; then
     git clone https://aur.archlinux.org/${NAME}.git
-else
-    cd $NAME
-    makepkg -si
 fi
+
+cd $NAME
+makepkg -si
+
+exit 0
