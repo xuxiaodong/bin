@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# name     : makeaur.sh
+# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# license  : GPL
+# created  : 2016 May 8
+# modified : 2016 May 14
+#
 
 NAME="$1"
 BUILD_DIR=~/build

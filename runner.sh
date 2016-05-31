@@ -1,19 +1,20 @@
 #!/usr/bin/env sh
 #
-# name     : adbshot.sh
+# name     : runner.sh
 # author   : Xu Xiaodong <xxdlhy@gmail.com>
 # license  : GPL
 # created  : 2016 May 14
 # modified : 2016 May 14
 #
 
-NAME="$1"
+cmd=$(which rofi)
 
-if [[ -z $NAME ]]; then
-    echo "Usage: $0 <name>"
+if [[ -z $cmd ]]; then
+    echo "Oops... You need to install rofi."
     exit 1
 fi
 
-adb shell screencap -p | sed 's/\r$//' > "${NAME}".png
+$cmd -modi "window,run,ssh" \
+     -show window
 
 exit 0
