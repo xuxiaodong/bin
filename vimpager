@@ -18,7 +18,8 @@ if [ -z "$file" ]; then file="-"; fi
 linux=1
 
 less_vim() {
-    /usr/bin/vim -R -X \
+    #/usr/bin/nvim -R -X \
+    /usr/bin/nvim -R \
         -c 'let no_plugin_maps=1'     \
         -c 'set scrolloff=999'        \
         -c 'set foldlevel=999'        \
